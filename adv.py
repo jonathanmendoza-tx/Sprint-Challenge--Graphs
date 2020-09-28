@@ -1,6 +1,7 @@
 from room import Room
 from player import Player
 from world import World
+from rat import Pathfinder
 
 import random
 from ast import literal_eval
@@ -29,7 +30,11 @@ player = Player(world.starting_room)
 # traversal_path = ['n', 'n']
 traversal_path = []
 
+rat_run = Pathfinder(world.starting_room)
+rat_run.make_path(world)
+traversal_path = rat_run.find_path()
 
+print(rat_run.traversal_graph)
 
 # TRAVERSAL TEST - DO NOT MODIFY
 visited_rooms = set()
@@ -37,26 +42,32 @@ player.current_room = world.starting_room
 visited_rooms.add(player.current_room)
 
 for move in traversal_path:
-    player.travel(move)
-    visited_rooms.add(player.current_room)
+
+	print(f'moving to {move}')
+
+	player.travel(move)
+	visited_rooms.add(player.current_room)
+
+print(f'visited rooms {len(visited_rooms)}')
+print(f'total rooms {len(room_graph)}')
 
 if len(visited_rooms) == len(room_graph):
-    print(f"TESTS PASSED: {len(traversal_path)} moves, {len(visited_rooms)} rooms visited")
+	print(f"TESTS PASSED: {len(traversal_path)} moves, {len(visited_rooms)} rooms visited")
 else:
-    print("TESTS FAILED: INCOMPLETE TRAVERSAL")
-    print(f"{len(room_graph) - len(visited_rooms)} unvisited rooms")
+	print("TESTS FAILED: INCOMPLETE TRAVERSAL")
+	print(f"{len(room_graph) - len(visited_rooms)} unvisited rooms")
 
 
 
 #######
 # UNCOMMENT TO WALK AROUND
 #######
-player.current_room.print_room_description(player)
-while True:
-    cmds = input("-> ").lower().split(" ")
-    if cmds[0] in ["n", "s", "e", "w"]:
-        player.travel(cmds[0], True)
-    elif cmds[0] == "q":
-        break
-    else:
-        print("I did not understand that command.")
+# player.current_room.print_room_description(player)
+# while True:
+# 	cmds = input("-> ").lower().split(" ")
+# 	if cmds[0] in ["n", "s", "e", "w"]:
+# 		player.travel(cmds[0], True)
+# 	elif cmds[0] == "q":
+# 		break
+# 	else:
+# 		print("I did not understand that command.")
