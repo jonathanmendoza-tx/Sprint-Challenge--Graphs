@@ -2,13 +2,10 @@ from room import Room
 from player import Player
 from world import World
 from rat import Pathfinder
-
-import random
 from ast import literal_eval
 
 # Load world
 world = World()
-
 
 # You may uncomment the smaller graphs for development and testing purposes.
 # map_file = "maps/test_line.txt"
@@ -28,12 +25,14 @@ player = Player(world.starting_room)
 
 # Fill this out with directions to walk
 # traversal_path = ['n', 'n']
-traversal_path = []
 
-rat_run = Pathfinder(world.starting_room)
-rat_run.make_path(world)
-traversal_path = rat_run.find_path()
+##Create rat to run the maze!
+rat_run = Pathfinder(world, world.starting_room)
+rat_run.make_path()
 
+traversal_path = rat_run.path
+
+#print my traversal graph for verification
 print(rat_run.traversal_graph)
 
 # TRAVERSAL TEST - DO NOT MODIFY
